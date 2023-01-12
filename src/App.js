@@ -1,23 +1,78 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import { nanoid } from 'nanoid';
+import { BaseColaboradores } from './assets/js/baseColaboradores';
+import Button from './components/button';
+import Header from './components/header';
+import Input from './components/input';
+import Listado from './components/listado';
+import ErrorBanner from './components/error';
 
 function App() {
+  const [name,setName]=useState("");
+  const [email, setEmail]=useState("");
+  const [colaboradores, setColaboradores] = useState(BaseColaboradores);
+	const [colaboradoresFiltrados, setColaboradoresFiltrados] = useState(BaseColaboradores);
+
+  const [error,setError]=useState("")
+
+  const handleSubmit=(e)=>{
+    e.preventDefault();
+
+    if (name.trim()==="" || email.trim()===""){
+      setError("Rellena todos los campos!");
+      return;
+    }else{setError("")}
+    const newColaborador={
+      id:nanoid(),
+      name:name,
+      email:email
+    };
+
+    setColaboradores([...colaboradores,newColaborador]);
+    setColaboradoresFiltrados([...colaboradores,newColaborador]);
+
+    setName("");
+    setEmail("");
+  }
+
+  const handleSearch=(e)=>{    
+    e.preventDefault()
+    const searchValue=e.target.value.toLowerCase();
+
+    if(searchValue.length>0){
+      const filterColaboradores=colaboradores.filter((colaborador)=>{
+        return(
+          colaborador.name.toLowerCase().includes(searchValue) || colaborador.email.toLowerCase().includes(searchValue.toLowerCase())
+        );
+      });
+
+      setColaboradoresFiltrados(filterColaboradores);
+    }else{
+      setColaboradoresFiltrados(colaboradores)
+    }
+    
+  };
+
+  const handleDelete=(id)=>{
+    const filterColaboradores=colaboradores.filter((colaborador=>colaborador.id!==id))
+    setColaboradores(filterColaboradores)
+  }
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header handleSearch={handleSearch}/>
+      <div className='container'>
+        <form onSubmit={handleSubmit} className="form-group mt-4">
+          {error!==""?<ErrorBanner message={error}/>:null}         
+          
+          <Input title="Nombre del Colaborador" type="text" placeholder="Ingresa el nombre del colaborador" changeEvent={(e) => setName(e.target.value)} value={name}/>
+          <Input title="Correo del Colaborador" type="email" placeholder="Ingresa correo del colaborador" changeEvent={(e) => setEmail(e.target.value)} value={email}/>
+          <Button type="onSubmit"/>
+        </form>
+        <Listado title="Lista de Colaboradores" mapColaboradores={colaboradoresFiltrados} />
+      </div>
     </div>
   );
 }
