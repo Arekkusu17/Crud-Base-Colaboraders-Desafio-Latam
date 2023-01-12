@@ -1,17 +1,17 @@
 import React from "react";
-import Button from "./button";
 
-const ListItem=({name,email})=>{
+const ListItem=({id,name,email,HandleDelete})=>{
   return(
     // <li className="list-group-item" >
     //   {name} - {email}
     // </li>
-    <tr>
+    <tr key={id} className="align-middle">
         
         <td>{name}</td>
         <td>{email}</td>
-        <td className="d-flex w"><button type="button" >Eliminar</button></td>
-        </tr>
+        <td className="d-flex w">
+        <button type="button" className="btn btn-danger" onClick={()=>HandleDelete(name)}>Eliminar</button></td>
+    </tr>
   )
 }
 

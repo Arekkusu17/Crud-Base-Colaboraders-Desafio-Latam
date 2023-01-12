@@ -22,7 +22,10 @@ function App() {
     if (name.trim()==="" || email.trim()===""){
       setError("Rellena todos los campos!");
       return;
-    }else{setError("")}
+    }else{
+      setError("")
+    }
+
     const newColaborador={
       id:nanoid(),
       name:name,
@@ -34,7 +37,8 @@ function App() {
 
     setName("");
     setEmail("");
-  }
+    }
+  
 
   const handleSearch=(e)=>{    
     e.preventDefault()
@@ -54,9 +58,10 @@ function App() {
     
   };
 
-  const handleDelete=(id)=>{
-    const filterColaboradores=colaboradores.filter((colaborador=>colaborador.id!==id))
+  const handleDelete=(name)=>{
+    const filterColaboradores=colaboradores.filter((colaborador=> colaborador.name!==name));
     setColaboradores(filterColaboradores)
+    setColaboradoresFiltrados(filterColaboradores)
   }
 
 
@@ -64,14 +69,15 @@ function App() {
     <div className="App">
       <Header handleSearch={handleSearch}/>
       <div className='container'>
-        <form onSubmit={handleSubmit} className="form-group mt-4">
+        <form onSubmit={handleSubmit} className="form-group mt-4 col-12">
           {error!==""?<ErrorBanner message={error}/>:null}         
-          
+          <div className='row'>
           <Input title="Nombre del Colaborador" type="text" placeholder="Ingresa el nombre del colaborador" changeEvent={(e) => setName(e.target.value)} value={name}/>
           <Input title="Correo del Colaborador" type="email" placeholder="Ingresa correo del colaborador" changeEvent={(e) => setEmail(e.target.value)} value={email}/>
-          <Button type="onSubmit"/>
+          <Button type="submit"/>
+          </div>
         </form>
-        <Listado title="Lista de Colaboradores" mapColaboradores={colaboradoresFiltrados} />
+        <Listado title="Lista de Colaboradores" mapColaboradores={colaboradoresFiltrados} onHandleDelete={handleDelete}/>
       </div>
     </div>
   );

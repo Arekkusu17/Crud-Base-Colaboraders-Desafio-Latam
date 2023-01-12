@@ -1,11 +1,11 @@
 import React from "react";
 import ListItem from "./listItem";
 
-const Listado=({title,mapColaboradores})=>{
+const Listado=({title,mapColaboradores,onHandleDelete})=>{
   const listarColaboradores=mapColaboradores.map(({id,name,email})=>{
     
     return(
-      <ListItem key={id} name={name} email={email} />
+      <ListItem key={id} id={id} name={name} email={email} HandleDelete={onHandleDelete}/>
     );
   }
   );
