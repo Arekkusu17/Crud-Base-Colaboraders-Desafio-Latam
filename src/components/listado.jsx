@@ -11,24 +11,20 @@ const Listado=({title,mapColaboradores,onHandleDelete})=>{
   );
 
   return(
-    <div className="text-start">
+    <div className="text-start mt-3">
       <h2>{title}</h2>
-      {/* <ol>{listarColaboradores}</ol> */}
       <table className="table">
-      <thead>
-      <tr>
-        
-        <th scope="col">Nombre</th>
-        <th scope="col">Email</th>
-        <th scope="col">Accion</th>
-      </tr>
-    </thead>
-    <tbody>
-      {listarColaboradores}
-      
-    </tbody></table>
-
-
+        <thead>
+          <tr>        
+            <th scope="col">Nombre</th>
+            <th scope="col">Email</th>
+            <th scope="col">Accion</th>
+          </tr>
+        </thead>
+        <tbody>
+          {listarColaboradores}
+        </tbody>
+      </table>
     </div>
   );
 };
