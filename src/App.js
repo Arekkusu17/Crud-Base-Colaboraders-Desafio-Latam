@@ -55,8 +55,8 @@ function App() {
     }
   };
 
-  const handleDelete = (name) => {
-    const filterColaboradores = colaboradores.filter((colaborador => colaborador.name !== name));
+  const handleDelete = (id) => {
+    const filterColaboradores = colaboradores.filter((colaborador => colaborador.id !== id));
     setColaboradores(filterColaboradores);
     setColaboradoresFiltrados(filterColaboradores);
   }
